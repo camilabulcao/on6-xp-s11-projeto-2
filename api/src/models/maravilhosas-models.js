@@ -1,6 +1,7 @@
 let dados = require('../data/data.json')
 const controller = require('../controllers/maravilhosas-controller')
 const { getMaravilhosaById } = require('../controllers/maravilhosas-controller')
+const maravilhosasController = require('../controllers/maravilhosas-controller')
 
 // selectAllData
 const selectAllData = () => {
@@ -13,7 +14,7 @@ const selectDataById = (id) => {
     if (byId){
         return byId
     } else {
-        return `Id nao encontrado`
+        return undefined
     }
 
 }
@@ -39,14 +40,33 @@ const insertData = (name, photo, subtitle, about, phrase, history, addedBy) =>{
 
     }
     dados.push(novaMaravilhosa)
+
+    return dados
 }
 
 //updateData
+const updateData = (maravilhosaAtualizada, id) =>{
+    const maravilhosaId = dados.map(maravilhosas => maravilhosas.id)
+    const atualizaId = maravilhosaId.indexOf(id)
+    const maravilhosaAtualizadacomId = {id, ...maravilhosaAtualizada}
+    dados.splice(atualizaId,1,maravilhosaAtualizadacomId)
+    return dados
 
+}
 //deleteData
+const deleteData = (id) =>{
+    const maravilhosaFiltrada = dados.filter(maravilhosa =>{ 
+        return maravilhosa.id == id
+    })[0];
+    const index = dados.indexOf(maravilhosaFiltrada)
+    dados.splice(index,1)
+    return dados
+}
 
 module.exports ={
     selectAllData,
     selectDataById,
-    insertData
+    insertData, 
+    updateData, 
+    deleteData
 }

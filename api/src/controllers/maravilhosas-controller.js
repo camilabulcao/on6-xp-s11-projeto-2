@@ -1,6 +1,7 @@
 //Nomes dos métodos para implementação:
 const models = require('../models/maravilhosas-models')
 const { response } = require('../app')
+const { updateData } = require('../models/maravilhosas-models')
 
 //getMaravilhosas
 const getMaravilhosas = (request, response) => {
@@ -12,7 +13,11 @@ const getMaravilhosas = (request, response) => {
 const getMaravilhosaById = (request, response) => {
     const id = parseInt(request.params.id)
     const selectDataById = models.selectDataById(id)
-    response.status(200).send(selectDataById) //não está filtrando pelo id
+    if(selectDataById == undefined){
+        response.status(404).send("Id não encontrado")
+    }else{
+    response.status(200).send(selectDataById) 
+    }
 }
 //addMaravilhosa 
 const addMaravilhosa = (request, response) =>{
@@ -22,11 +27,27 @@ const addMaravilhosa = (request, response) =>{
 
 }
 //updateMaravilhosa 
+const updateMaravilhosa = (request, response) =>{
+    const maravilhosaAtualizada = request.body
+    const id = parseInt(request.params.id)
+    const dados = updateData(maravilhosaAtualizada,id)
+    response.status(200).json(dados.find(dados => dados.id == id))
+
+}
+
 
 //deleteMaravilhosa
+const deleteMaravilhosa = (request, response) =>{
+    const id = parseInt(request.params.id)
+    const deleteId = models.deleteData(id)
+    response.status(204).json(deleteId)
+
+}
 
 module.exports ={
     getMaravilhosas,
     getMaravilhosaById, 
-    addMaravilhosa
+    addMaravilhosa, 
+    updateMaravilhosa,
+    deleteMaravilhosa
 }
