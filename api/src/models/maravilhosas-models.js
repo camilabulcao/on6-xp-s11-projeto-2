@@ -20,6 +20,8 @@ const selectDataById = (id) => {
 }
 
 //insertData
+//Não achamos necessário implementar uma validação, pois o id será gerado automaticamente,
+// discartando hipóteses de repetição.
 const obterNovoValor = (array) => { //para fazer o incremento
     if (array.length > 0) {
         return array[array.length - 1].id + 1
@@ -27,6 +29,7 @@ const obterNovoValor = (array) => { //para fazer o incremento
         return 1
     }
   }
+
 const insertData = (name, photo, subtitle, about, phrase, history, addedBy) =>{
     let novaMaravilhosa = {
         id: obterNovoValor(dados),
